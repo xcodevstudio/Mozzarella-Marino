@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Env / secrets — NEVER commit
+.env
+.env.local
+.env.*.local
+
+# Vercel
+.vercel/
+
+# OS
+.DS_Store
+Thumbs.db
+__MACOSX/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Original design source files (kept locally only)
+Fonts/
+Website Content/
+
+# Build/debug artifacts
+*.log
+preview*.png
+preview*.pdf
+logo-preview.png
+screenshot.mjs
+zoom.mjs
+inspect.mjs

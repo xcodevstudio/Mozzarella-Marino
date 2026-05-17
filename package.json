@@ -1,0 +1,21 @@
+{
+  "name": "mozzarella-marino",
+  "version": "1.0.0",
+  "description": "Landing page for Mozzarella Marino — handcrafted Italian cheese.",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "python -m http.server 8765",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "resend": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xcodevstudio/Mozzarella-Marino.git"
+  }
+}
