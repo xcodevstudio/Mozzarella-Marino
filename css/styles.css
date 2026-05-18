@@ -401,12 +401,10 @@ p { margin: 0 0 1em; }
   will-change: transform;
   transform: rotate(var(--rot, 0deg));
 }
-/* Mobile / tablet (<900px): hide ALL floating decorations and the
-   contact-section photo albums — phones get a clean, content-only layout */
+/* Mobile / tablet (<900px): hide the floating accents (basil/tomato/etc)
+   but KEEP the contact-section photo albums visible as simple rows */
 @media (max-width: 899px) {
   .float-wrap { display: none; }
-  .cta-album,
-  .form-album { display: none; }
 }
 .float-wrap > img {
   display: block;
@@ -714,21 +712,29 @@ p { margin: 0 0 1em; }
   text-decoration: none;
 }
 .form-note a:hover { text-decoration: underline; }
-/* Album of photos sitting OUTSIDE the cream box on the right */
+/* Mobile: form album sits as a horizontal row above the form fields */
 .form-album {
-  display: none; /* hidden on mobile so it doesn't crowd the form */
+  display: flex;
+  gap: 16px;
+  margin: 24px 0 28px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 .form-photo {
-  position: absolute;
   object-fit: cover;
   border-radius: 14px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
   pointer-events: none;
+  width: 110px;
+  height: 110px;
   opacity: 0;
   transform: translateX(var(--enter-x, 400px)) rotate(var(--rest-rot, 0deg));
   transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease;
   transition-delay: var(--enter-delay, 0s);
 }
+/* Mobile rotations */
+.form-photo--1 { --rest-rot: 5deg;  --enter-x:  300px; --enter-delay: 0.10s; }
+.form-photo--2 { --rest-rot: -4deg; --enter-x:  360px; --enter-delay: 0.25s; }
 .contact.in-view .form-photo {
   opacity: 1;
   transform: rotate(var(--rest-rot, 0deg));
@@ -743,8 +749,10 @@ p { margin: 0 0 1em; }
     width: 170px;
     height: 0;
     z-index: 2;
+    margin: 0;
   }
-  .form-photo--1 { top: -170px; right:  0;  width: 150px; height: 150px; --rest-rot: 10deg; --enter-x: 420px; --enter-delay: 0.10s; }
+  .form-photo { position: absolute; }
+  .form-photo--1 { top: -170px; right:  0;   width: 150px; height: 150px; --rest-rot: 10deg; --enter-x: 420px; --enter-delay: 0.10s; }
   .form-photo--2 { top:   20px; right: -40px; width: 170px; height: 170px; --rest-rot: -8deg; --enter-x: 500px; --enter-delay: 0.25s; }
 }
 .form-row {
