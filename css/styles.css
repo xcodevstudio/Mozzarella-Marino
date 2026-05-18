@@ -736,7 +736,7 @@ p { margin: 0 0 1em; }
     z-index: 2;
   }
   .form-photo--1 { top: -170px; right:  0;  width: 150px; height: 150px; --rest-rot: 10deg; --enter-x: 420px; --enter-delay: 0.10s; }
-  .form-photo--2 { top:   20px; right: 30px; width: 170px; height: 170px; --rest-rot: -8deg; --enter-x: 500px; --enter-delay: 0.25s; }
+  .form-photo--2 { top:   20px; right: -40px; width: 170px; height: 170px; --rest-rot: -8deg; --enter-x: 500px; --enter-delay: 0.25s; }
 }
 .form-row {
   display: grid;
