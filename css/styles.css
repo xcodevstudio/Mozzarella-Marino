@@ -591,28 +591,28 @@ p { margin: 0 0 1em; }
 
 .cta-social {
   list-style: none;
-  margin: 0;
+  margin: 24px 0 0;
   padding: 0;
   display: flex;
-  gap: 10px;
+  gap: 14px;
 }
 .cta-social a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: var(--color-red);
   color: var(--color-cream);
   border: none;
   transition: background 0.2s ease, transform 0.2s ease;
 }
+.cta-social svg { display: block; width: 16px; height: 16px; }
 .cta-social a:hover {
   background: var(--color-red-dark);
   transform: translateY(-1px);
 }
-.cta-social svg { display: block; }
 
 @media (min-width: 768px) {
   /* Desktop: scattered photo stack extending OUT of the card's left side.
