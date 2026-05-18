@@ -401,21 +401,12 @@ p { margin: 0 0 1em; }
   will-change: transform;
   transform: rotate(var(--rot, 0deg));
 }
-/* Mobile / tablet (<900px): hide floats by default, then re-enable a few
-   small safe ones at the far edges so they don't overlap text or content */
+/* Mobile / tablet (<900px): hide ALL floating decorations and the
+   contact-section photo albums — phones get a clean, content-only layout */
 @media (max-width: 899px) {
   .float-wrap { display: none; }
-
-  /* About — show only 4 corner floats, small and at section edges */
-  .float-wrap.a1 { display: block; top:  4%; left:  3%; width: 44px; }   /* mozz top-LEFT */
-  .float-wrap.a3 { display: block; top:  3%; right: 3%; width: 64px; left: auto; }  /* tomato top-RIGHT */
-  .float-wrap.a5 { display: block; bottom: 6%; right: 3%; width: 58px; top: auto; left: auto; }  /* mozz bottom-RIGHT */
-  .float-wrap.a7 { display: block; bottom: 4%; left:  2%; width: 56px; top: auto; }  /* basil bottom-LEFT */
-
-  /* Products — show 3 corner floats */
-  .float-wrap.p1 { display: block; top:  4%; right: 3%; width: 56px; }   /* basil top-RIGHT */
-  .float-wrap.p4 { display: block; top: 45%; left:  2%; width: 62px; right: auto; }  /* mozz mid-LEFT */
-  .float-wrap.p6 { display: block; bottom: 4%; right: 3%; width: 56px; top: auto; }  /* basil bottom-RIGHT */
+  .cta-album,
+  .form-album { display: none; }
 }
 .float-wrap > img {
   display: block;
