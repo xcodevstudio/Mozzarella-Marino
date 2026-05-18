@@ -9,6 +9,22 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+  /* ---------- Contact section reveal (photos fly in from outside) ---------- */
+  const contactSection = document.querySelector('#contact');
+  if (contactSection && 'IntersectionObserver' in window) {
+    const contactIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          contactIO.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.25 });
+    contactIO.observe(contactSection);
+  } else if (contactSection) {
+    contactSection.classList.add('in-view');
+  }
+
   /* ---------- Scroll-driven upward drift + subtle scale on floats ----
      Motion starts once the section has entered the viewport by ~25%
      (section.top crosses 75% of viewport height from the top).
