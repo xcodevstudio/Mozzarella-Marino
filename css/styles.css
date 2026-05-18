@@ -548,8 +548,9 @@ p { margin: 0 0 1em; }
 /* Mobile: simple inline row of photos above the text */
 .cta-album {
   display: flex;
-  gap: 12px;
-  margin: 0 0 28px;
+  gap: 16px;
+  margin: 36px 0 28px;
+  flex-wrap: wrap;
 }
 .cta-photo {
   width: 96px;

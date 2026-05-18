@@ -9,6 +9,26 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+  /* ---------- Force hero video autoplay on mobile (iOS Safari is picky) ---------- */
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.playsInline = true;
+    const tryPlay = () => heroVideo.play().catch(() => {});
+    tryPlay();
+    // Retry when the tab becomes visible or after a touch (iOS may need a gesture)
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) tryPlay();
+    });
+    const onceOnTouch = () => {
+      tryPlay();
+      document.removeEventListener('touchstart', onceOnTouch);
+      document.removeEventListener('click', onceOnTouch);
+    };
+    document.addEventListener('touchstart', onceOnTouch, { passive: true });
+    document.addEventListener('click', onceOnTouch);
+  }
+
   /* ---------- Contact section reveal (photos fly in from outside) ---------- */
   const contactSection = document.querySelector('#contact');
   if (contactSection && 'IntersectionObserver' in window) {
