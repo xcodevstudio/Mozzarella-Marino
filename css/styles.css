@@ -401,6 +401,10 @@ p { margin: 0 0 1em; }
   will-change: transform;
   transform: rotate(var(--rot, 0deg));
 }
+/* Hide all floating decorations on mobile / tablet — only show on desktop ≥900px */
+@media (max-width: 899px) {
+  .float-wrap { display: none; }
+}
 .float-wrap > img {
   display: block;
   width: 100%;
