@@ -840,10 +840,10 @@ p { margin: 0 0 1em; }
   background: var(--color-cream);
   width: 100vw;
   margin-left: calc(50% - 50vw); /* break out of any container that may clip */
-  height: 180px;
+  height: 48px;
 }
-@media (min-width: 768px) { .bottom-strip { height: 220px; } }
-@media (min-width: 1024px) { .bottom-strip { height: 260px; } }
+@media (min-width: 768px) { .bottom-strip { height: 64px; } }
+@media (min-width: 1024px) { .bottom-strip { height: 72px; } }
 
 /* ---------- Footer ---------- */
 .site-footer {
