@@ -635,9 +635,10 @@ p { margin: 0 0 1em; }
     position: absolute;
     border-radius: 14px;
   }
-  .cta-photo--1 { top:   0; left:  40px; width: 170px; height: 170px; --rest-rot: -12deg; --enter-x: -440px; z-index: 1; }
-  .cta-photo--2 { top: 130px; left:   0; width: 130px; height: 130px; --rest-rot:   8deg; --enter-x: -520px; z-index: 2; }
-  .cta-photo--3 { top: 200px; left:  60px; width: 170px; height: 170px; --rest-rot: -10deg; --enter-x: -440px; z-index: 3; }
+  /* big → medium → small, top to bottom */
+  .cta-photo--1 { top:   0; left:  10px; width: 200px; height: 200px; --rest-rot: -12deg; --enter-x: -480px; z-index: 1; }
+  .cta-photo--2 { top: 170px; left: 60px; width: 140px; height: 140px; --rest-rot:   8deg; --enter-x: -520px; z-index: 2; }
+  .cta-photo--3 { top: 280px; left:  20px; width:  95px; height:  95px; --rest-rot: -10deg; --enter-x: -440px; z-index: 3; }
 }
 
 @media (min-width: 1024px) {
@@ -649,9 +650,10 @@ p { margin: 0 0 1em; }
     height: 400px;
     left: -36px;
   }
-  .cta-photo--1 { top:   0; left:  44px; width: 190px; height: 190px; --rest-rot: -12deg; --enter-x: -480px; }
-  .cta-photo--2 { top: 145px; left:   0; width: 140px; height: 140px; --rest-rot:   8deg; --enter-x: -560px; }
-  .cta-photo--3 { top: 220px; left:  64px; width: 190px; height: 190px; --rest-rot: -10deg; --enter-x: -480px; }
+  /* big → medium → small, top to bottom (desktop) */
+  .cta-photo--1 { top:   0; left:  10px; width: 220px; height: 220px; --rest-rot: -12deg; --enter-x: -520px; }
+  .cta-photo--2 { top: 190px; left: 70px; width: 150px; height: 150px; --rest-rot:   8deg; --enter-x: -560px; }
+  .cta-photo--3 { top: 305px; left:  20px; width: 105px; height: 105px; --rest-rot: -10deg; --enter-x: -480px; }
 }
 
 /* ---------- Contact form ---------- */
@@ -727,14 +729,14 @@ p { margin: 0 0 1em; }
     display: block;
     position: absolute;
     top: 50%;
-    right: -190px;        /* push the entire album OUTSIDE the cream box */
+    right: -80px;         /* pulled left — album just kisses the right edge of the cream box */
     transform: translateY(-50%);
     width: 170px;
     height: 0;
     z-index: 2;
   }
-  .form-photo--1 { top: -170px; right:  0;  width: 150px; height: 150px; --rest-rot: 10deg; --enter-x: 480px; --enter-delay: 0.10s; }
-  .form-photo--2 { top:   20px; right: 30px; width: 170px; height: 170px; --rest-rot: -8deg; --enter-x: 560px; --enter-delay: 0.25s; }
+  .form-photo--1 { top: -170px; right:  0;  width: 150px; height: 150px; --rest-rot: 10deg; --enter-x: 420px; --enter-delay: 0.10s; }
+  .form-photo--2 { top:   20px; right: 30px; width: 170px; height: 170px; --rest-rot: -8deg; --enter-x: 500px; --enter-delay: 0.25s; }
 }
 .form-row {
   display: grid;
@@ -829,6 +831,15 @@ p { margin: 0 0 1em; }
   .contact-inner { padding: 48px 40px; }
   .contact-form { padding: 32px 36px 32px 28px; }
 }
+
+/* ---------- Bottom cream strip ---------- */
+.bottom-strip {
+  background: var(--color-cream);
+  height: 120px;
+  width: 100%;
+}
+@media (min-width: 768px) { .bottom-strip { height: 160px; } }
+@media (min-width: 1024px) { .bottom-strip { height: 200px; } }
 
 /* ---------- Footer ---------- */
 .site-footer {
