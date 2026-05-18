@@ -657,10 +657,12 @@ p { margin: 0 0 1em; }
 }
 
 /* ---------- Contact form ---------- */
+/* Entire section is cream so it flows seamlessly into the bottom strip below */
 .contact {
   position: relative;
   overflow: visible;
-  padding-bottom: 0; /* let the bottom cream strip flow right up to the card */
+  padding-bottom: 0;
+  background: var(--color-cream);
 }
 .contact .container { position: relative; z-index: 1; }
 .contact-inner {
@@ -668,10 +670,8 @@ p { margin: 0 0 1em; }
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
-  background: var(--color-cream);
-  border-radius: var(--radius-lg);
+  /* No own background — inherits the cream from the .contact section */
   padding: 36px 28px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
   align-items: stretch;
 }
 .contact-intro h2 {
