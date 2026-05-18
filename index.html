@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Mozzarella Marino — small-batch, handmade Italian cheese crafted with time-tested techniques. Fresh mozzarella, burrata, ricotta and treccia.">
-  <meta name="theme-color" content="#992B25">
+  <meta name="theme-color" content="#842520">
   <title>Mozzarella Marino — The True Italian Mozzarella</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,31 +15,20 @@
 
   <!-- ============ HEADER ============ -->
   <header class="site-header">
-    <nav class="nav container" aria-label="Primary">
-      <ul class="nav-list nav-list--left">
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#products">Our Products</a></li>
-      </ul>
-
-      <ul class="nav-list nav-list--right">
-        <li><a href="#gift-boxes">Gift Boxes</a></li>
-        <li><a href="#contact">Contact Us</a></li>
-      </ul>
+    <nav class="nav" aria-label="Primary">
+      <a href="#top" class="logo" aria-label="Mozzarella Marino — home">
+        <img src="/assets/logo/mozzarella-marino-logo-1.svg" alt="Mozzarella Marino" class="logo-img">
+      </a>
 
       <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
-
-      <a href="#top" class="logo" aria-label="Mozzarella Marino — home">
-        <img src="/assets/logo/mozzarella-marino-logo-1.svg" alt="Mozzarella Marino" class="logo-img">
-      </a>
     </nav>
 
-    <div id="mobile-menu" class="mobile-menu" hidden>
-      <a href="#about">About Us</a>
-      <a href="#products">Our Products</a>
-      <a href="#gift-boxes">Gift Boxes</a>
-      <a href="#contact">Contact Us</a>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="#about">About</a>
+      <a href="#products">Products</a>
+      <a href="#contact">Contact</a>
     </div>
   </header>
 
@@ -56,10 +45,6 @@
 
       <div class="hero-overlay">
         <div class="container hero-inner">
-          <p class="hero-eyebrow">
-            Localy Made<br>
-            <span>Specially For You</span>
-          </p>
           <h1 class="hero-title">
             The True Italian<br>
             <span>Mozzarella</span>
@@ -70,16 +55,14 @@
 
     <!-- ============ ABOUT ============ -->
     <section id="about" class="about section">
-      <!-- Decorative floating elements — mixed: tomato, basil, mozzarella, pepper -->
-      <img src="/assets/images/floating/layer-2.png"  alt="" class="about-float about-float--1" aria-hidden="true"><!-- right top: basil -->
-      <img src="/assets/images/floating/layer-7.png"  alt="" class="about-float about-float--2" aria-hidden="true"><!-- right bot: basil leaf -->
-      <img src="/assets/images/floating/layer-5.png"  alt="" class="about-float about-float--3" aria-hidden="true"><!-- right mid: tomato -->
-      <img src="/assets/images/floating/layer-1.png"  alt="" class="about-float about-float--4" aria-hidden="true"><!-- left top: cherry tomato -->
-      <img src="/assets/images/floating/layer-6.png"  alt="" class="about-float about-float--5" aria-hidden="true"><!-- left bot: basil -->
-      <img src="/assets/images/floating/layer-11.png" alt="" class="about-float about-float--6" aria-hidden="true"><!-- left mid: mozzarella (half off-screen) -->
-      <img src="/assets/images/floating/layer-9.png"  alt="" class="about-float about-float--7" aria-hidden="true"><!-- right upper-mid: pepper -->
-      <img src="/assets/images/floating/layer-10.png" alt="" class="about-float about-float--8" aria-hidden="true"><!-- bottom center: pepper sprinkle -->
-      <img src="/assets/images/floating/layer-13.png" alt="" class="about-float about-float--9" aria-hidden="true"><!-- right mid-bot: mozzarella (half off-screen) -->
+      <!-- Left-side vertical column: small mozzarella, basil, BIG tomato, pepper, pepper, basil -->
+      <div class="float-wrap a1" aria-hidden="true" data-rot="6"   data-speed="0.30"><img src="/assets/images/floating/layer-13.png" alt=""></div>
+      <div class="float-wrap a2" aria-hidden="true" data-rot="-14" data-speed="0.32"><img src="/assets/images/floating/layer-2.png"  alt=""></div>
+      <div class="float-wrap a3" aria-hidden="true" data-rot="-4"  data-speed="0.28"><img src="/assets/images/floating/layer-4.png"  alt=""></div>
+      <div class="float-wrap a4" aria-hidden="true" data-rot="0"   data-speed="0.45"><img src="/assets/images/floating/pepper-1.png" alt=""></div>
+      <div class="float-wrap a5" aria-hidden="true" data-rot="8"   data-speed="0.28"><img src="/assets/images/floating/layer-11.png" alt=""></div>
+      <div class="float-wrap a6" aria-hidden="true" data-rot="0"   data-speed="0.42"><img src="/assets/images/floating/pepper-2.png" alt=""></div>
+      <div class="float-wrap a7" aria-hidden="true" data-rot="-14" data-speed="0.32"><img src="/assets/images/floating/layer-6.png"  alt=""></div>
 
       <div class="container about-grid">
         <div class="about-illustration">
@@ -107,6 +90,14 @@
 
     <!-- ============ PRODUCTS ============ -->
     <section id="products" class="products section">
+      <!-- Right-side vertical column: basil, pepper, BIG tomato, BIG mozzarella, pepper, basil -->
+      <div class="float-wrap p1" aria-hidden="true" data-rot="-12" data-speed="0.32"><img src="/assets/images/floating/layer-7.png"  alt=""></div>
+      <div class="float-wrap p2" aria-hidden="true" data-rot="0"   data-speed="0.45"><img src="/assets/images/floating/pepper-3.png" alt=""></div>
+      <div class="float-wrap p3" aria-hidden="true" data-rot="-4"  data-speed="0.28"><img src="/assets/images/floating/layer-1.png"  alt=""></div>
+      <div class="float-wrap p4" aria-hidden="true" data-rot="8"   data-speed="0.28"><img src="/assets/images/floating/layer-11.png" alt=""></div>
+      <div class="float-wrap p5" aria-hidden="true" data-rot="0"   data-speed="0.42"><img src="/assets/images/floating/pepper-4.png" alt=""></div>
+      <div class="float-wrap p6" aria-hidden="true" data-rot="-22" data-speed="0.32"><img src="/assets/images/floating/layer-2.png"  alt=""></div>
+
       <div class="container">
         <h2 class="section-title">Our Products</h2>
         <p class="section-subtitle">Crafted fresh, every day.</p>
@@ -117,7 +108,6 @@
               <img src="/assets/images/products/mozzarella.jpg" alt="Fresh mozzarella" loading="lazy">
             </div>
             <h3>Mozzarella</h3>
-            <p>Soft, milky and delicate — our signature.</p>
           </article>
 
           <article class="product-card">
@@ -125,7 +115,6 @@
               <img src="/assets/images/products/burrata.jpg" alt="Creamy burrata" loading="lazy">
             </div>
             <h3>Burrata</h3>
-            <p>A delicate shell of mozzarella with a creamy heart.</p>
           </article>
 
           <article class="product-card">
@@ -133,7 +122,6 @@
               <img src="/assets/images/products/ricotta.jpg" alt="Fresh ricotta" loading="lazy">
             </div>
             <h3>Ricotta</h3>
-            <p>Light, fluffy and gently sweet.</p>
           </article>
 
           <article class="product-card">
@@ -141,22 +129,19 @@
               <img src="/assets/images/products/treccia.jpg" alt="Braided treccia" loading="lazy">
             </div>
             <h3>Treccia</h3>
-            <p>Hand-braided mozzarella, traditional in every twist.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ============ CTA ============ -->
-    <section id="gift-boxes" class="cta section">
-      <div class="container">
+    <!-- ============ CONTACT (CTA card on left, form on right) ============ -->
+    <section id="contact" class="contact section">
+      <div class="container contact-inner">
         <div class="cta-card">
-          <img src="/assets/images/food/food-img-01.jpg" alt="Fresh mozzarella served on a plate" class="cta-image" loading="lazy">
-
           <div class="cta-body">
             <h2>Ready to try our<br>fresh mozzarella?</h2>
 
-            <a href="#contact" class="btn btn--rect">Contact Us</a>
+            <a href="#contact-form" class="btn btn--rect">Contact Us</a>
 
             <p class="cta-email">
               <a href="mailto:marco@marinomozzarella.com">marco@marinomozzarella.com</a>
@@ -175,19 +160,12 @@
               </li>
             </ul>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- ============ CONTACT FORM ============ -->
-    <section id="contact" class="contact section">
-      <div class="container contact-inner">
-        <div class="contact-intro">
-          <h2>Get in touch</h2>
-          <p>
-            Wholesale inquiries, gift boxes, or just want to say hello?
-            Drop us a line and we'll get back to you within 24 hours.
-          </p>
+          <div class="cta-album" aria-hidden="true">
+            <img src="/assets/images/food/food-img-01.jpg" alt="" class="cta-photo cta-photo--1" loading="lazy">
+            <img src="/assets/images/food/food-img-02.jpg" alt="" class="cta-photo cta-photo--2" loading="lazy">
+            <img src="/assets/images/food/food-img-03.jpg" alt="" class="cta-photo cta-photo--3" loading="lazy">
+          </div>
         </div>
 
         <form id="contact-form" class="contact-form" novalidate>
@@ -235,6 +213,6 @@
     </div>
   </footer>
 
-  <script src="/js/main.js" defer></script>
+  <script src="/js/main.js?v=4" defer></script>
 </body>
 </html>

@@ -45,13 +45,13 @@ export default async function handler(req, res) {
 
   const html = `
     <div style="font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; color: #2a2a2a;">
-      <div style="background: #992B25; color: #fef9f0; padding: 20px; border-radius: 12px 12px 0 0;">
+      <div style="background: #842520; color: #fef9f0; padding: 20px; border-radius: 12px 12px 0 0;">
         <h1 style="margin: 0; font-size: 20px; letter-spacing: 1px;">New Contact Form Submission</h1>
         <p style="margin: 4px 0 0; opacity: 0.85; font-size: 13px;">Mozzarella Marino website</p>
       </div>
       <div style="background: #fef9f0; padding: 24px; border-radius: 0 0 12px 12px;">
         <p style="margin: 0 0 8px;"><strong>Name:</strong> ${escapeHtml(name)}</p>
-        <p style="margin: 0 0 8px;"><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}" style="color: #992B25;">${escapeHtml(email)}</a></p>
+        <p style="margin: 0 0 8px;"><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}" style="color: #842520;">${escapeHtml(email)}</a></p>
         ${phone ? `<p style="margin: 0 0 8px;"><strong>Phone:</strong> ${escapeHtml(phone)}</p>` : ''}
         <p style="margin: 16px 0 8px;"><strong>Message:</strong></p>
         <div style="background: #fff; padding: 16px; border-radius: 8px; border: 1px solid #e7e1d5; white-space: pre-wrap; line-height: 1.6;">${escapeHtml(message)}</div>

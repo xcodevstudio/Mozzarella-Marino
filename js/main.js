@@ -9,39 +9,61 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  /* ---------- Scroll-triggered reveal ---------- */
-  const revealTargets = document.querySelectorAll('.about');
-  if (revealTargets.length && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-    revealTargets.forEach(el => io.observe(el));
-  } else {
-    revealTargets.forEach(el => el.classList.add('in-view'));
+  /* ---------- Scroll-driven upward drift + subtle scale on floats ----
+     Motion starts once the section has entered the viewport by ~25%
+     (section.top crosses 75% of viewport height from the top).
+     Items also gain a small amount of size (0.88 → 1.0) for life. */
+  const wraps = Array.from(document.querySelectorAll('.float-wrap')).map(el => ({
+    el,
+    section: el.closest('section'),
+    rot: parseFloat(el.dataset.rot || '0'),
+    speed: parseFloat(el.dataset.speed || '0.4'),
+  })).filter(w => w.section);
+
+  if (wraps.length) {
+    let raf = null;
+    const update = () => {
+      raf = null;
+      const vh = window.innerHeight;
+      const trigger = vh * 0.75; // each item starts moving when ITS OWN top crosses this line
+      for (const w of wraps) {
+        const rect = w.el.getBoundingClientRect();
+        const scrolledPast = Math.max(0, trigger - rect.top);
+        const upShift = scrolledPast * w.speed;
+        // Subtle grow: 0.92 → 1.0 over a longer scroll distance, eased for organic feel
+        const t = Math.min(1, scrolledPast / (vh * 0.9));
+        const eased = 1 - Math.pow(1 - t, 3); // ease-out-cubic
+        const scale = 0.92 + eased * 0.08;
+        w.el.style.transform = `translateY(${-upShift}px) rotate(${w.rot}deg) scale(${scale})`;
+      }
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
   }
+
 
   /* ---------- Mobile menu ---------- */
   const menuToggle = document.querySelector('.menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
 
   if (menuToggle && mobileMenu) {
+    mobileMenu.hidden = false;
+
     const closeMenu = () => {
       menuToggle.setAttribute('aria-expanded', 'false');
       mobileMenu.dataset.open = 'false';
-      mobileMenu.hidden = true;
     };
     const openMenu = () => {
       menuToggle.setAttribute('aria-expanded', 'true');
       mobileMenu.dataset.open = 'true';
-      mobileMenu.hidden = false;
     };
 
-    menuToggle.addEventListener('click', () => {
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
       expanded ? closeMenu() : openMenu();
     });
@@ -50,8 +72,18 @@
       a.addEventListener('click', closeMenu);
     });
 
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 860) closeMenu();
+    document.addEventListener('click', (e) => {
+      if (menuToggle.getAttribute('aria-expanded') === 'true' &&
+          !mobileMenu.contains(e.target) &&
+          !menuToggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
     });
   }
 
