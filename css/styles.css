@@ -660,6 +660,7 @@ p { margin: 0 0 1em; }
 .contact {
   position: relative;
   overflow: visible;
+  padding-bottom: 0; /* let the bottom cream strip flow right up to the card */
 }
 .contact .container { position: relative; z-index: 1; }
 .contact-inner {
@@ -833,13 +834,16 @@ p { margin: 0 0 1em; }
 }
 
 /* ---------- Bottom cream strip ---------- */
+/* Full-width cream band that fills from the bottom of the contact card
+   right up to the footer — no white gap between them. */
 .bottom-strip {
   background: var(--color-cream);
-  height: 120px;
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(50% - 50vw); /* break out of any container that may clip */
+  height: 180px;
 }
-@media (min-width: 768px) { .bottom-strip { height: 160px; } }
-@media (min-width: 1024px) { .bottom-strip { height: 200px; } }
+@media (min-width: 768px) { .bottom-strip { height: 220px; } }
+@media (min-width: 1024px) { .bottom-strip { height: 260px; } }
 
 /* ---------- Footer ---------- */
 .site-footer {
