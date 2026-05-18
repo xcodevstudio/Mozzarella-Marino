@@ -21,8 +21,9 @@ __MACOSX/
 *.swo
 
 # Original design source files (kept locally only)
-Fonts/
-Website Content/
+# NOTE: only the ROOT-level /Fonts/ folder is excluded, NOT assets/fonts/
+/Fonts/
+/Website Content/
 
 # Build/debug artifacts
 *.log
