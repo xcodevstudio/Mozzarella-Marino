@@ -330,13 +330,13 @@ p { margin: 0 0 1em; }
 .hero-eyebrow span { display: inline-block; }
 
 .hero-title {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(24px, 2.8vw, 42px);
+  font-family: 'Forum', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: clamp(34px, 4.5vw, 64px);
   color: #ffffff;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   line-height: 1.1;
   margin: 0;
 }
