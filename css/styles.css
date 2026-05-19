@@ -198,7 +198,7 @@ p { margin: 0 0 1em; }
 }
 .logo-img {
   display: block;
-  height: 84px;
+  height: 101px;
   width: auto;
   user-select: none;
   filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.35));
@@ -273,7 +273,7 @@ p { margin: 0 0 1em; }
 
 @media (max-width: 860px) {
   .nav { min-height: 88px; padding: 14px 20px; }
-  .logo-img { height: 56px; }
+  .logo-img { height: 67px; }
   .menu-toggle { right: 18px; }
   .mobile-menu { right: 16px; }
 }
