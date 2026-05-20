@@ -9,24 +9,53 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  /* ---------- Force hero video autoplay on mobile (iOS Safari is picky) ---------- */
+  /* ---------- Force hero video autoplay (always — desktop AND mobile) ----
+     iOS Safari and some Android browsers refuse autoplay without a user
+     gesture OR strict muted+playsinline. We force every flag and then
+     retry play() on every conceivable event until the video is playing.   */
   const heroVideo = document.querySelector('.hero-video');
   if (heroVideo) {
     heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
     heroVideo.playsInline = true;
-    const tryPlay = () => heroVideo.play().catch(() => {});
+    heroVideo.setAttribute('muted', '');
+    heroVideo.setAttribute('playsinline', '');
+    heroVideo.setAttribute('webkit-playsinline', '');
+    heroVideo.setAttribute('autoplay', '');
+
+    const tryPlay = () => {
+      if (heroVideo.paused || heroVideo.ended) {
+        const p = heroVideo.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+      }
+    };
+
+    // Try immediately + on every video-readiness event
     tryPlay();
-    // Retry when the tab becomes visible or after a touch (iOS may need a gesture)
+    ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough', 'pause', 'stalled'].forEach(ev => {
+      heroVideo.addEventListener(ev, tryPlay);
+    });
+
+    // Retry on tab-visibility return and window focus / restore
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) tryPlay();
     });
-    const onceOnTouch = () => {
+    window.addEventListener('pageshow', tryPlay);
+    window.addEventListener('focus', tryPlay);
+
+    // Retry on ANY user interaction (gesture unlocks autoplay on iOS)
+    ['touchstart', 'touchend', 'touchmove', 'click', 'scroll', 'keydown'].forEach(ev => {
+      document.addEventListener(ev, tryPlay, { passive: true });
+    });
+
+    // Periodic safety-net: keep trying for ~30s in case browser blocked the first play()
+    let ticks = 0;
+    const heartbeat = setInterval(() => {
       tryPlay();
-      document.removeEventListener('touchstart', onceOnTouch);
-      document.removeEventListener('click', onceOnTouch);
-    };
-    document.addEventListener('touchstart', onceOnTouch, { passive: true });
-    document.addEventListener('click', onceOnTouch);
+      ticks++;
+      if (ticks >= 20 && !heroVideo.paused) clearInterval(heartbeat);
+      if (ticks >= 60) clearInterval(heartbeat);
+    }, 500);
   }
 
   /* ---------- Contact section reveal (photos fly in from outside) ---------- */

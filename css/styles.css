@@ -401,10 +401,14 @@ p { margin: 0 0 1em; }
   will-change: transform;
   transform: rotate(var(--rot, 0deg));
 }
-/* Mobile / tablet (<900px): hide the floating accents (basil/tomato/etc)
-   but KEEP the contact-section photo albums visible as simple rows */
+/* Mobile / tablet (<900px): hide the DESKTOP floating accents,
+   but show the dedicated .mobile-only floats (see "MOBILE FLOATS" block) */
 @media (max-width: 899px) {
-  .float-wrap { display: none; }
+  .float-wrap:not(.mobile-only) { display: none; }
+}
+/* Hide mobile-only floats on desktop */
+@media (min-width: 900px) {
+  .float-wrap.mobile-only { display: none; }
 }
 .float-wrap > img {
   display: block;
@@ -475,6 +479,52 @@ p { margin: 0 0 1em; }
   .float-wrap.p5 { top: 70%; right: 10%; width:  20px; }   /* pepper — beside big mozz */
   .float-wrap.p6 { top: 78%; right:  5%; width: 130px; }   /* basil bottom */
 
+}
+
+/* =========================================================================
+   ===== MOBILE FLOATS =====================================================
+   Edit ONLY these four blocks to move the floating items on phone.
+   Each rule:  top / left|right = position  •  width = size  •  --rot = tilt
+   Image source is set in index.html (look for class names m-a1, m-a2, m-p1,
+   m-c1, m-c2). Active only at viewport widths <= 899px.
+   ========================================================================= */
+@media (max-width: 899px) {
+
+  /* ----- About section (mobile) -------------------------------------- */
+  .float-wrap.m-a1 {              /* LEFT side  — tall basil along left edge */
+    top:    8%;
+    left:  -4%;
+    width: 130px;
+    --rot: -8deg;
+  }
+  .float-wrap.m-a2 {              /* RIGHT side — small accent near chef hand */
+    top:   42%;
+    right: -2%;
+    width: 90px;
+    --rot:  6deg;
+  }
+
+  /* ----- Products section (mobile) ----------------------------------- */
+  .float-wrap.m-p1 {              /* RIGHT side of "Our Products" heading */
+    top:    4%;
+    right: -2%;
+    width: 130px;
+    --rot: -12deg;
+  }
+
+  /* ----- Contact section (mobile) ------------------------------------ */
+  .float-wrap.m-c1 {              /* RIGHT of photo album (upper) */
+    top:   22%;
+    right: 4%;
+    width: 80px;
+    --rot:  10deg;
+  }
+  .float-wrap.m-c2 {              /* RIGHT of photo album (lower) */
+    top:   42%;
+    right: 8%;
+    width: 70px;
+    --rot: -6deg;
+  }
 }
 
 /* ---------- Products ---------- */
