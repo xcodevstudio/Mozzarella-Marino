@@ -361,9 +361,18 @@ p { margin: 0 0 1em; }
   display: flex;
   justify-content: center;
 }
-.about-illustration img {
+.about-illustration img,
+.about-illustration .mascot-video {
   max-width: 440px;
   width: 100%;
+  height: auto;
+  display: block;
+  /* Force own GPU layer to kill mobile-Safari scroll artifacts */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
 .about-text h2 {
   font-family: var(--font-display);
@@ -389,7 +398,8 @@ p { margin: 0 0 1em; }
     grid-template-columns: 1.3fr 1fr;
     gap: 64px;
   }
-  .about-illustration img { max-width: 720px; }
+  .about-illustration img,
+  .about-illustration .mascot-video { max-width: 720px; }
 }
 
 /* Floating decorations — natural size; JS only translates upward on scroll.
