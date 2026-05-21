@@ -9,26 +9,16 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  /* ---------- Lock viewport: block pinch-zoom and double-tap zoom on iOS Safari
-     (which ignores user-scalable=no in the viewport meta since iOS 10) ---------- */
+  /* ---------- Lock viewport: block pinch-zoom on iOS Safari
+     (which ignores user-scalable=no since iOS 10).
+     Use ONLY gesture* events — NOT touchmove — because a non-passive touchmove
+     listener disables compositor-thread scrolling and makes the page feel laggy.
+     touch-action: pan-y in CSS already handles pinch on iOS 14+. */
   document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
   document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
   document.addEventListener('gestureend', (e) => e.preventDefault(), { passive: false });
 
-  // Block double-tap zoom on iOS
-  let lastTouchEnd = 0;
-  document.addEventListener('touchend', (e) => {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 350) e.preventDefault();
-    lastTouchEnd = now;
-  }, { passive: false });
-
-  // Block multi-touch pinch
-  document.addEventListener('touchmove', (e) => {
-    if (e.touches && e.touches.length > 1) e.preventDefault();
-  }, { passive: false });
-
-  // Hard-reset wheel-zoom (ctrl+wheel) on desktop too — keeps the design locked
+  // Block desktop ctrl+wheel zoom
   document.addEventListener('wheel', (e) => {
     if (e.ctrlKey) e.preventDefault();
   }, { passive: false });
@@ -53,15 +43,34 @@
       try { v.load(); } catch (e) {}
     });
 
+    const heroSection = document.querySelector('.hero');
+    const markHeroPlaying = () => { if (heroSection) heroSection.classList.add('is-playing'); };
+
     const tryPlayAll = () => {
       autoplayVideos.forEach(v => {
         v.muted = true;
         if (v.paused || v.ended) {
           const p = v.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
+          if (p && typeof p.then === 'function') {
+            p.then(() => {
+              if (v.classList.contains('hero-video')) markHeroPlaying();
+            }).catch(() => {});
+          } else if (!v.paused && v.classList.contains('hero-video')) {
+            markHeroPlaying();
+          }
+        } else if (v.classList.contains('hero-video')) {
+          markHeroPlaying();
         }
       });
     };
+
+    // When the hero video genuinely starts playing, fade out the poster overlay
+    const heroVideo = autoplayVideos.find(v => v.classList.contains('hero-video'));
+    if (heroVideo) {
+      ['playing', 'timeupdate'].forEach(ev => {
+        heroVideo.addEventListener(ev, markHeroPlaying);
+      });
+    }
 
     tryPlayAll();
     autoplayVideos.forEach(v => {
@@ -70,29 +79,34 @@
       });
     });
 
-    document.addEventListener('readystatechange', tryPlayAll);
-    document.addEventListener('DOMContentLoaded', tryPlayAll);
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) tryPlayAll();
     });
-    window.addEventListener('load', tryPlayAll);
     window.addEventListener('pageshow', tryPlayAll);
     window.addEventListener('focus', tryPlayAll);
     window.addEventListener('orientationchange', tryPlayAll);
-    window.addEventListener('resize', tryPlayAll);
 
-    ['touchstart', 'touchend', 'touchmove', 'pointerdown', 'click', 'scroll', 'keydown'].forEach(ev => {
-      document.addEventListener(ev, tryPlayAll, { passive: true });
+    // First user interaction triggers a play attempt — required when iOS Low Power Mode
+    // blocked autoplay. Single-shot to avoid scroll-time work.
+    const firstGesture = () => {
+      tryPlayAll();
+      ['touchstart', 'pointerdown', 'click'].forEach(ev => {
+        document.removeEventListener(ev, firstGesture);
+      });
+    };
+    ['touchstart', 'pointerdown', 'click'].forEach(ev => {
+      document.addEventListener(ev, firstGesture, { passive: true, once: false });
     });
 
+    // Stop the heartbeat early once all videos are playing — running every 500ms
+    // forever was contributing to perceived lag on mobile.
     let ticks = 0;
     const heartbeat = setInterval(() => {
       tryPlayAll();
       ticks++;
       const allPlaying = autoplayVideos.every(v => !v.paused);
-      if (ticks >= 20 && allPlaying) clearInterval(heartbeat);
-      if (ticks >= 120) clearInterval(heartbeat);
-    }, 250);
+      if (allPlaying || ticks >= 20) clearInterval(heartbeat);
+    }, 600);
   }
 
   /* ---------- Contact section reveal (photos fly in from outside) ---------- */
@@ -120,23 +134,36 @@
     section: el.closest('section'),
     rot: parseFloat(el.dataset.rot || '0'),
     speed: parseFloat(el.dataset.speed || '0.4'),
+    lastShift: -1,
   })).filter(w => w.section);
 
   if (wraps.length) {
+    // Promote each float to its own GPU compositing layer so transform updates
+    // don't repaint surrounding content — biggest single mobile-scroll perf win.
+    wraps.forEach(w => {
+      w.el.style.willChange = 'transform';
+      w.el.style.backfaceVisibility = 'hidden';
+    });
+
     let raf = null;
     const update = () => {
       raf = null;
       const vh = window.innerHeight;
-      const trigger = vh * 0.75; // each item starts moving when ITS OWN top crosses this line
+      const trigger = vh * 0.75;
       for (const w of wraps) {
+        // Cheap visibility check via the parent section before forcing layout on the float itself
+        const sRect = w.section.getBoundingClientRect();
+        if (sRect.bottom < -vh || sRect.top > vh * 2) continue;
         const rect = w.el.getBoundingClientRect();
         const scrolledPast = Math.max(0, trigger - rect.top);
+        // Skip the style write if the transform hasn't meaningfully changed
+        if (Math.abs(scrolledPast - w.lastShift) < 0.5) continue;
+        w.lastShift = scrolledPast;
         const upShift = scrolledPast * w.speed;
-        // Subtle grow: 0.92 → 1.0 over a longer scroll distance, eased for organic feel
         const t = Math.min(1, scrolledPast / (vh * 0.9));
-        const eased = 1 - Math.pow(1 - t, 3); // ease-out-cubic
+        const eased = 1 - Math.pow(1 - t, 3);
         const scale = 0.92 + eased * 0.08;
-        w.el.style.transform = `translateY(${-upShift}px) rotate(${w.rot}deg) scale(${scale})`;
+        w.el.style.transform = `translate3d(0, ${-upShift}px, 0) rotate(${w.rot}deg) scale(${scale})`;
       }
     };
     const onScroll = () => {
