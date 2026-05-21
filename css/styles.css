@@ -93,7 +93,19 @@
 
 /* ---------- Reset & base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  /* Prevent the page from shifting horizontally on touch */
+  touch-action: pan-y;
+  -ms-touch-action: pan-y;
+  -ms-content-zooming: none;
+  overscroll-behavior-x: none;
+}
 body {
   margin: 0;
   font-family: var(--font);
@@ -104,6 +116,36 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  /* Disable pinch-zoom + horizontal pan on mobile */
+  touch-action: pan-y;
+  -ms-touch-action: pan-y;
+  overscroll-behavior-x: none;
+}
+
+/* ---------- Hide native video play overlay (iOS Safari) ---------- */
+.hero-video,
+.mascot-video {
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-start-playback-button,
+.hero-video::-webkit-media-controls-play-button,
+.hero-video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-overlay-play-button,
+.mascot-video::-webkit-media-controls,
+.mascot-video::-webkit-media-controls-start-playback-button,
+.mascot-video::-webkit-media-controls-play-button,
+.mascot-video::-webkit-media-controls-panel,
+.mascot-video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 img, video, svg { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }

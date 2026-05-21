@@ -9,6 +9,30 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+  /* ---------- Lock viewport: block pinch-zoom and double-tap zoom on iOS Safari
+     (which ignores user-scalable=no in the viewport meta since iOS 10) ---------- */
+  document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
+  document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
+  document.addEventListener('gestureend', (e) => e.preventDefault(), { passive: false });
+
+  // Block double-tap zoom on iOS
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', (e) => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 350) e.preventDefault();
+    lastTouchEnd = now;
+  }, { passive: false });
+
+  // Block multi-touch pinch
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+
+  // Hard-reset wheel-zoom (ctrl+wheel) on desktop too — keeps the design locked
+  document.addEventListener('wheel', (e) => {
+    if (e.ctrlKey) e.preventDefault();
+  }, { passive: false });
+
   /* ---------- Force autoplay on every <video> on the page ----
      iOS Safari and some Android browsers refuse autoplay without a user
      gesture OR strict muted+playsinline. We force every flag and then
@@ -19,14 +43,19 @@
       v.muted = true;
       v.defaultMuted = true;
       v.playsInline = true;
+      v.controls = false;
       v.setAttribute('muted', '');
       v.setAttribute('playsinline', '');
       v.setAttribute('webkit-playsinline', '');
       v.setAttribute('autoplay', '');
+      v.removeAttribute('controls');
+      // Force a reload so the new source order (mp4 first) takes effect on iOS
+      try { v.load(); } catch (e) {}
     });
 
     const tryPlayAll = () => {
       autoplayVideos.forEach(v => {
+        v.muted = true;
         if (v.paused || v.ended) {
           const p = v.play();
           if (p && typeof p.catch === 'function') p.catch(() => {});
@@ -36,18 +65,23 @@
 
     tryPlayAll();
     autoplayVideos.forEach(v => {
-      ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough', 'pause', 'stalled'].forEach(ev => {
+      ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough', 'pause', 'stalled', 'suspend', 'emptied'].forEach(ev => {
         v.addEventListener(ev, tryPlayAll);
       });
     });
 
+    document.addEventListener('readystatechange', tryPlayAll);
+    document.addEventListener('DOMContentLoaded', tryPlayAll);
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) tryPlayAll();
     });
+    window.addEventListener('load', tryPlayAll);
     window.addEventListener('pageshow', tryPlayAll);
     window.addEventListener('focus', tryPlayAll);
+    window.addEventListener('orientationchange', tryPlayAll);
+    window.addEventListener('resize', tryPlayAll);
 
-    ['touchstart', 'touchend', 'touchmove', 'click', 'scroll', 'keydown'].forEach(ev => {
+    ['touchstart', 'touchend', 'touchmove', 'pointerdown', 'click', 'scroll', 'keydown'].forEach(ev => {
       document.addEventListener(ev, tryPlayAll, { passive: true });
     });
 
@@ -57,8 +91,8 @@
       ticks++;
       const allPlaying = autoplayVideos.every(v => !v.paused);
       if (ticks >= 20 && allPlaying) clearInterval(heartbeat);
-      if (ticks >= 60) clearInterval(heartbeat);
-    }, 500);
+      if (ticks >= 120) clearInterval(heartbeat);
+    }, 250);
   }
 
   /* ---------- Contact section reveal (photos fly in from outside) ---------- */
