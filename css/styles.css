@@ -667,6 +667,8 @@ p { margin: 0 0 1em; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+  max-width: 720px;
+  margin: 0 auto;
 }
 .product-card {
   text-align: center;
@@ -711,8 +713,9 @@ p { margin: 0 0 1em; }
 
 @media (min-width: 768px) {
   .product-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+    max-width: 800px;
   }
 }
 
