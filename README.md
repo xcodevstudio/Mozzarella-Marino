@@ -65,7 +65,7 @@ Required in Vercel (Settings → Environment Variables) and locally in `.env.loc
 | Variable             | Required | Description                                                                                          |
 | -------------------- | -------- | ---------------------------------------------------------------------------------------------------- |
 | `RESEND_API_KEY`     | Yes      | API key from <https://resend.com/api-keys>                                                           |
-| `CONTACT_TO_EMAIL`   | Yes      | Inbox that receives form submissions (e.g. `mario@marinomozzarella.com`)                             |
+| `CONTACT_TO_EMAIL`   | Yes      | Inbox that receives form submissions (e.g. `marco@marinomozzarella.com`)                             |
 | `CONTACT_FROM_EMAIL` | No       | Sender address on a verified Resend domain. Defaults to `onboarding@resend.dev` for testing only.    |
 
 ## Deployment
